@@ -48,12 +48,8 @@ struct SineWaveVoice : public SynthesiserVoice
 		auto currentSample = value0 + frac * (value1 - value0);
 		if ((currentIndex += tableDelta) > tableSize)
 			currentIndex -= tableSize;
-		
 		/*auto rand = Random::getSystemRandom().nextFloat();
 		currentSample += (0.001*rand);*/
-		/*if (currentSample >= 0.5)
-			currentSample = 1;
-		else currentSample = 0;*/
 		return currentSample;
 	}
 	// ***
@@ -70,24 +66,7 @@ struct SineWaveVoice : public SynthesiserVoice
 		tailOff = 0.0;
 		setFrequency(MidiMessage::getMidiNoteInHertz(midiNoteNumber), getSampleRate()); // ***
 		noteVelocity = velocity;
-
-
 		ADSRphase = 0;
-		/*while (true)
-		{
-			if (!(level >= velocity))
-			{
-				level *= 1.1;
-			}
-		}*/
-		/*while (level >= velocity)
-		{
-			level *= 1.1;
-		}
-*/
-		//wyliczenie liniowej funkcji  - nachylenia - czyli  ADSRvalueDelta;
-
-		// *** angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
 
 	}
 	void stopNote(float /*velocity*/, bool allowTailOff) override
@@ -102,43 +81,31 @@ struct SineWaveVoice : public SynthesiserVoice
 		else
 		{
 			clearCurrentNote();
-			tableDelta = 0.0f; // *** angleDelta = 0.0;
+			tableDelta = 0.0f; 
 		}
 	}
 	void pitchWheelMoved(int) override {}
 	void controllerMoved(int, int) override {}
 	void renderNextBlock(AudioSampleBuffer& outputBuffer, int startSample, int numSamples) override
 	{
-		//createWavetable();
 		attackTime = 0.5 * getSampleRate();
 
-		if (tableDelta != 0.0) // ***	//je¿eli jest naciœniêty klawisz
+		if (tableDelta != 0.0) 
 		{
-			if (tailOff > 0.0)	//sprawdzac faze adsr, jezeli jest 0 to znaczy ze nie gramy
+			if (tailOff > 0.0)	
 			{
-				//tailOff = 0.1;
-
 				while (--numSamples >= 0)
 				{
 
-					auto currentSample = getNextSample() * level * tailOff;	//zamiast tailoff adsrvalue
-
-					//attackTime += currentSample;
+					auto currentSample = getNextSample() * level * tailOff;
 
 					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
 						outputBuffer.addSample(i, startSample, currentSample);
-
-					//if (ADSRphase == 0)
-					
-
 
 					++startSample;
 					
 					if (ADSRphase == 3)
 						tailOff *= (1 - (1 / releaseTime));
-
-					//tailOff *= 0.999999;
-
 					if (tailOff <= 0.005)
 					{
 						clearCurrentNote();
@@ -179,9 +146,6 @@ private:
 class SynthAudioSource : public AudioSource/*, public GeneratorWt1AudioProcessorEditor*/
 {
 public:
-	/*dsp::ProcessSpec processSpec;
-	dsp::IIR::Coefficients<float>lowPassCoefficients;*/
-
 	SynthAudioSource(MidiKeyboardState& keyState)
 		: keyboardState(keyState)
 	{
@@ -197,23 +161,6 @@ public:
 	{
 		synth.setCurrentPlaybackSampleRate(sampleRate);
 		//createWavetable(); /*/ 
-
-		//a = IIRCoefficients::makeHighPass(sampleRate, 1000, 1.0);
-		//a.makeLowPass(sampleRate, 1000);
-		////filter.setCoefficients(a);
-		//processSpec.sampleRate = sampleRate;
-		//processSpec.numChannels = 2;
-		//processSpec.maximumBlockSize = tableSize;
-		//lowPassFilter.prepare(processSpec);
-		//lowPassFilter.reset();
-		//lowPassCoefficients.process(context);
-		//dsp::IIR::Filter<float>::process(context);
-		//lowPassCoefficients.process
-		//dsp::IIR::Filter filter = dsp::IIR::Filter(lowPassCoefficients);
-		//IIRCoefficients coeffs;
-		//coeffs.makeLowPass(sampleRate, tableSize / sampleRate);
-		//dsp::IIR::Filter<float>filter(coeffs);
-		
 	}
 	void releaseResources() override {}
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override
@@ -259,14 +206,7 @@ public:
 	int tableSize = 128;
 	int numVoices = 4;
 	AudioSampleBuffer signalTable;
-	
-	/*//dsp::ProcessorDuplicator < dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> lowPassFilter;
-	juce::IIRFilter filter;
-	juce::IIRCoefficients a;*/
-
-
 	float noiseRatio;
-	//float sineSquaredRatio;
 	float sineRatio;
 	float squareRatio;
 
@@ -284,43 +224,26 @@ public:
 	}
 
 	void createWavetable()
-	{
-		
+	{	
 		signalTable.setSize(1, tableSize);
 		auto* samples = signalTable.getWritePointer(0);
 		auto angleDelta =  MathConstants<float>::twoPi / (double)(tableSize - 1);
 		auto currentAngle = 0.0;
+
 		for (auto i = 0; i < tableSize; ++i)
 		{
-			//sineNoiseRatio = 30;
 			auto sample = std::sin(currentAngle);
-			
-			//float sineSquared = sample * sample;
-			//sample *= sample;
-			//sample = static_cast<float>(sample);
-			//sample += sample * sineRatio;
-			auto rand = Random::getSystemRandom().nextFloat();
-			//float noise_ = noise(sample);
-			/*sample *= sineRatio;
-			sample += (rand * noiseRatio);
-			sample += (square(sample) * squareRatio);*/
 
+			auto rand = Random::getSystemRandom().nextFloat();
 			float sineSample = sample * sineRatio;
 			float noiseSample = rand * noiseRatio;
 			float squareSample = square(sample) * squareRatio;
 
 			float finalSample = sineSample + noiseSample + squareSample;
-			//finalSample /= 3;
 			finalSample /= (sineRatio + noiseRatio + squareRatio);
-			//sample = sample / (sineRatio + noiseRatio + squareRatio);
-
 			samples[i] = (float)finalSample;
 			currentAngle += angleDelta;
-
-
-			/*samples[i] = (float)sample;
-			currentAngle += angleDelta;*/
 		}
+		//signalTable.reverse(0, tableSize);
 	}
-	// ***
 };

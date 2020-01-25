@@ -33,11 +33,11 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	gainSlider.addListener(this);*/
 
 	squareRatioSlider.setSliderStyle(Slider::LinearVertical);
-	squareRatioSlider.setRange(0, 10, 0.1);
+	squareRatioSlider.setRange(0, 3, 0.1);
 	squareRatioSlider.setTextBoxStyle(Slider::NoTextBox, false, 20, 0);
 	squareRatioSlider.setPopupDisplayEnabled(true, false, this);
 	squareRatioSlider.setTextValueSuffix("");
-	squareRatioSlider.setValue(5);
+	squareRatioSlider.setValue(1);
 	addAndMakeVisible(&squareRatioSlider);
 	squareRatioSlider.addListener(this);
 
@@ -51,7 +51,7 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	sineRatioSlider.addListener(this);
 
 	noiseRatioSlider.setSliderStyle(Slider::LinearVertical);
-	noiseRatioSlider.setRange(0, 5, 0.1);
+	noiseRatioSlider.setRange(0, 8, 0.1);
 	noiseRatioSlider.setTextBoxStyle(Slider::NoTextBox, false, 20, 0);
 	noiseRatioSlider.setPopupDisplayEnabled(true, false, this);
 	noiseRatioSlider.setTextValueSuffix("");
@@ -76,14 +76,8 @@ GeneratorWt1AudioProcessorEditor::~GeneratorWt1AudioProcessorEditor()
 //==============================================================================
 void GeneratorWt1AudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
-
-	//gainSlider.setBounds(0, 0, 100, 200);
 }
 
 void GeneratorWt1AudioProcessorEditor::resized()
