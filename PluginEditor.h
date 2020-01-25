@@ -16,7 +16,7 @@
 //==============================================================================
 /**
 */
-class GeneratorWt1AudioProcessorEditor  : public AudioProcessorEditor, private Timer/*, private Slider::Listener */
+class GeneratorWt1AudioProcessorEditor  : public AudioProcessorEditor, private Timer, private Slider::Listener
 {
 public:
     GeneratorWt1AudioProcessorEditor (GeneratorWt1AudioProcessor&);
@@ -25,9 +25,9 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
-	//void sliderValueChanged(Slider* slider) override;
+	void sliderValueChanged(Slider* slider) override;
 
-private:
+/*private:*/
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GeneratorWt1AudioProcessor& processor;
@@ -38,6 +38,7 @@ private:
 	}
 	//Slider releaseSlider;
 
+	Slider gainSlider, squareRatioSlider, sineRatioSlider, noiseRatioSlider;
 	MidiKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GeneratorWt1AudioProcessorEditor)
