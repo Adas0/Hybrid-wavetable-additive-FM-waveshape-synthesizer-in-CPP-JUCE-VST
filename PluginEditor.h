@@ -39,6 +39,7 @@ public:
 	//Slider releaseSlider;
 
 	Slider gainSlider, squareRatioSlider, sineRatioSlider, noiseRatioSlider;
+	Slider sineParameterSlider, squareParameterSlider;
 	MidiKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GeneratorWt1AudioProcessorEditor)

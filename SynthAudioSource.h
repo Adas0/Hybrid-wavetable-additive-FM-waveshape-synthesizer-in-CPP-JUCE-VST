@@ -173,25 +173,6 @@ public:
 			bufferToFill.numSamples, true);
 		synth.renderNextBlock(*bufferToFill.buffer, incomingMidi,
 			bufferToFill.startSample, bufferToFill.numSamples);
-
-		/*//int sampleRate = 44100;
-		//
-		//lowPassCoefficients.makeLowPass(sampleRate, tableSize / sampleRate, 2.0f);
-		//dsp::IIR::Filter<float>::CoefficientsPtr lowPassCoefficientsPtr = lowPassCoefficients;
-
-		//
-		//lowPassFilter(dsp::IIR::Coefficients<float>)
-		//dsp::IIR::Filter<float> filter = lowPassCoefficients;
-
-		//dsp::AudioBlock<float> block = *bufferToFill.buffer;
-		//const dsp::ProcessContextReplacing<float> context(block);
-		////lowPassCoefficients.process(context);
-		//filter.process(context);
-
-		/**lowPassFilter.state = *dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 300, 0.5);
-		for (int i = 0; i < static_cast<int>(bufferToFill.buffer->getNumSamples); ++i)
-			filter.processSamples(bufferToFill.buffer->getWritePointer(i), bufferToFill.buffer->getNumSamples());*/
-
 	}
 	MidiMessageCollector* getMidiCollector()
 	{
@@ -210,10 +191,14 @@ public:
 	float sineRatio;
 	float squareRatio;
 
-	float square(float sample)
+	float sineParameter, squareParameter;
+
+	float square(float currentAngle)
 	{
-		if (sample >= 0) sample = 0.9;
-		else if (sample < 0) sample = -0.9;
+		float sample;
+		float weirdSquare = std::sin(currentAngle) - (std::cos(squareParameter * currentAngle))/std::sin(currentAngle);
+		if (weirdSquare >= 0) sample = 0.9;
+		else if (weirdSquare < 0) sample = -0.9;
 		return sample;
 	}
 
@@ -232,17 +217,29 @@ public:
 
 		for (auto i = 0; i < tableSize; ++i)
 		{
-			auto sample = std::sin(currentAngle);
+			auto sample = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * sineParameter);
 
 			auto rand = Random::getSystemRandom().nextFloat();
+			//float square_ = 
 			float sineSample = sample * sineRatio;
 			float noiseSample = rand * noiseRatio;
-			float squareSample = square(sample) * squareRatio;
+			float squareSample = square(currentAngle) * squareRatio;
 
 			float finalSample = sineSample + noiseSample + squareSample;
-			finalSample /= (sineRatio + noiseRatio + squareRatio);
+			finalSample /= (1 + sineRatio + noiseRatio + squareRatio);
+
+			//finalSample = std::sin((std::sin(finalSample) / finalSample)) * 10;
+			//finalSample *= (std::sin(currentAngle / std::sin(currentAngle)));
+			//finalSample*= std::hyp
+
+			//if (i <= tableSize / 2)
+			//finalSample *= std::exp(-1 / 2 * std::pow((i - (tableSize - 1) / 2) / 10 / 2, 2));
+
+			//finalSample *= (0.54 - 0.46 * std::cos(currentAngle/(tableSize - 1)));
+
 			samples[i] = (float)finalSample;
 			currentAngle += angleDelta;
+
 		}
 		//signalTable.reverse(0, tableSize);
 	}
