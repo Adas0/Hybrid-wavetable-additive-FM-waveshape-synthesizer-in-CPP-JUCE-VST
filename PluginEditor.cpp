@@ -22,6 +22,10 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	setSize(488, 335);
 	startTimer(400);
 
+	//DocumentWindow::setTitleBarTextCentred(false);
+	//setName("hello");
+	//setName()
+
 
 	/*gainSlider.setSliderStyle(Slider::LinearVertical);
 	gainSlider.setRange(0.0, 1.0, 0.1);
@@ -33,7 +37,7 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	gainSlider.addListener(this);*/
 
 	squareRatioSlider.setSliderStyle(Slider::LinearHorizontal);
-	squareRatioSlider.setRange(0, 3, 0.1);
+	squareRatioSlider.setRange(0, 5.5, 0.1);
 	squareRatioSlider.setTextBoxStyle(Slider::NoTextBox, false, 20, 0);
 	squareRatioSlider.setPopupDisplayEnabled(true, false, this);
 	squareRatioSlider.setTextValueSuffix("");
@@ -51,7 +55,7 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	sineRatioSlider.addListener(this);
 
 	noiseRatioSlider.setSliderStyle(Slider::LinearHorizontal);
-	noiseRatioSlider.setRange(0, 8, 0.1);
+	noiseRatioSlider.setRange(0, 9, 0.1);
 	noiseRatioSlider.setTextBoxStyle(Slider::NoTextBox, false, 20, 0);
 	noiseRatioSlider.setPopupDisplayEnabled(true, false, this);
 	noiseRatioSlider.setTextValueSuffix("");
@@ -139,7 +143,7 @@ GeneratorWt1AudioProcessorEditor::~GeneratorWt1AudioProcessorEditor()
 void GeneratorWt1AudioProcessorEditor::paint (Graphics& g)
 {
     //g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-	g.fillAll(Colour::Colour(102, 102, 255));
+	g.fillAll(Colour::Colour(102, 0, 41));
 }
 
 void GeneratorWt1AudioProcessorEditor::resized()
@@ -163,8 +167,8 @@ void GeneratorWt1AudioProcessorEditor::resized()
 	sine2ParameterSlider.setBounds(360, 45, 20, 180);
 	squareParameterSlider.setBounds(420, 45, 20, 180);
 	
-	sineL.setBounds(55, 71, 200, 20);
-	sine2L.setBounds(55, 140, 200, 20);
+	sineL.setBounds(50, 71, 200, 20);
+	sine2L.setBounds(50, 140, 200, 20);
 	squareL.setBounds(50, 65+ 140, 250, 20);
 	noiseL.setBounds(130, 65+ 210, 200, 20);
 	sineParamL.setBounds(300, 250, 20, 20);
