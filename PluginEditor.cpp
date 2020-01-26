@@ -19,7 +19,7 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 	addAndMakeVisible(keyboardComponent);
-	setSize(600, 500);
+	setSize(488, 335);
 	startTimer(400);
 
 
@@ -138,8 +138,8 @@ GeneratorWt1AudioProcessorEditor::~GeneratorWt1AudioProcessorEditor()
 //==============================================================================
 void GeneratorWt1AudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
+    //g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+	g.fillAll(Colour::Colour(102, 102, 255));
 }
 
 void GeneratorWt1AudioProcessorEditor::resized()
