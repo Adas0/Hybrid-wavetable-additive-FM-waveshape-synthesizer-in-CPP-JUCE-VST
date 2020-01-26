@@ -95,7 +95,31 @@ GeneratorWt1AudioProcessorEditor::GeneratorWt1AudioProcessorEditor (GeneratorWt1
 	addAndMakeVisible(&sine2ParameterSlider);
 	sine2ParameterSlider.addListener(this);
 
+
+	addAndMakeVisible(sineL);
+	sineL.setText("sin(x) * cos(x) - sin(x * N)", dontSendNotification);
+	sineL.addListener(this);
+	//sineL.attachToComponent(&sineRatioSlider, false);
+
+	addAndMakeVisible(sine2L);
+	sine2L.setText("sin(x) * cos(x) - sin(x * M)", dontSendNotification);
+	sine2L.addListener(this);
 	
+	addAndMakeVisible(squareL);
+	squareL.setText("square(sin(x) - cos(x * L) / sin(x))", dontSendNotification);
+	squareL.addListener(this);
+	addAndMakeVisible(noiseL);
+	noiseL.setText("noise", dontSendNotification);
+	noiseL.addListener(this);
+	addAndMakeVisible(sineParamL);
+	sineParamL.setText("N", dontSendNotification);
+	sineParamL.addListener(this);
+	addAndMakeVisible(sine2ParamL);
+	sine2ParamL.setText("M", dontSendNotification);
+	sine2ParamL.addListener(this);
+	addAndMakeVisible(squareParamL);
+	squareParamL.setText("L", dontSendNotification);
+	squareParamL.addListener(this);
 
 	/*releaseSlider.setSliderStyle(Slider::Rotary);
 	releaseSlider.setRange(0.999, 0.99999, 0.001);
@@ -139,7 +163,14 @@ void GeneratorWt1AudioProcessorEditor::resized()
 	sine2ParameterSlider.setBounds(360, 45, 20, 180);
 	squareParameterSlider.setBounds(420, 45, 20, 180);
 	
-	
+	sineL.setBounds(55, 71, 200, 20);
+	sine2L.setBounds(55, 140, 200, 20);
+	squareL.setBounds(50, 65+ 140, 250, 20);
+	noiseL.setBounds(130, 65+ 210, 200, 20);
+	sineParamL.setBounds(300, 250, 20, 20);
+	sine2ParamL.setBounds(360, 250, 20, 20);
+	squareParamL.setBounds(420, 250, 20, 20);
+
 	//processor.synthAudioSource.releaseTime = releaseSlider.getValue();
 
 
