@@ -187,16 +187,18 @@ public:
 	int tableSize = 128;
 	int numVoices = 4;
 	AudioSampleBuffer signalTable;
-	float noiseRatio;
+	
 	float sineRatio;
+	float sine2Ratio;
 	float squareRatio;
+	float noiseRatio;
 
-	float sineParameter, squareParameter;
+	float sineParameter, sine2Parameter, squareParameter;
 
 	float square(float currentAngle)
 	{
 		float sample;
-		float weirdSquare = std::sin(currentAngle) - (std::cos(squareParameter * currentAngle))/std::sin(currentAngle);
+		float weirdSquare = std::sin(currentAngle) - (std::cos(squareParameter * currentAngle)) / std::sin(currentAngle);
 		if (weirdSquare >= 0) sample = 0.9;
 		else if (weirdSquare < 0) sample = -0.9;
 		return sample;
@@ -218,24 +220,19 @@ public:
 		for (auto i = 0; i < tableSize; ++i)
 		{
 			auto sample = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * sineParameter);
+			auto sample2 = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * sine2Parameter);
+
+			//auto logComponent = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * logParameter);
 
 			auto rand = Random::getSystemRandom().nextFloat();
-			//float square_ = 
+
 			float sineSample = sample * sineRatio;
 			float noiseSample = rand * noiseRatio;
 			float squareSample = square(currentAngle) * squareRatio;
+			float logSample = sample2 * sine2Ratio;
 
-			float finalSample = sineSample + noiseSample + squareSample;
-			finalSample /= (1 + sineRatio + noiseRatio + squareRatio);
-
-			//finalSample = std::sin((std::sin(finalSample) / finalSample)) * 10;
-			//finalSample *= (std::sin(currentAngle / std::sin(currentAngle)));
-			//finalSample*= std::hyp
-
-			//if (i <= tableSize / 2)
-			//finalSample *= std::exp(-1 / 2 * std::pow((i - (tableSize - 1) / 2) / 10 / 2, 2));
-
-			//finalSample *= (0.54 - 0.46 * std::cos(currentAngle/(tableSize - 1)));
+			float finalSample = sineSample + noiseSample + squareSample + logSample;
+			finalSample /= (1 + sineRatio + noiseRatio + squareRatio + sine2Ratio);
 
 			samples[i] = (float)finalSample;
 			currentAngle += angleDelta;

@@ -38,8 +38,8 @@ public:
 	}
 	//Slider releaseSlider;
 
-	Slider gainSlider, squareRatioSlider, sineRatioSlider, noiseRatioSlider;
-	Slider sineParameterSlider, squareParameterSlider;
+	Slider gainSlider, squareRatioSlider, sineRatioSlider, noiseRatioSlider, sine2RatioSlider;
+	Slider sineParameterSlider, squareParameterSlider, sine2ParameterSlider;
 	MidiKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GeneratorWt1AudioProcessorEditor)
