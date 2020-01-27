@@ -1,6 +1,6 @@
 # Hybrid-wavetable-additive-FM-waveshape-synthesizer-in-CPP
 
-This is a synthesizer creater using JUCE in C++
+This is a synthesizer (VST Plugin) created using JUCE in C++ 
 
 ![synth_gui](https://github.com/Adas0/Hybrid-wavetable-additive-FM-waveshape-synthesizer-in-CPP-JUCE/blob/master/synth_gui.PNG)
 
