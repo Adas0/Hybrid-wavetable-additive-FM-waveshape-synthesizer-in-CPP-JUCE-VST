@@ -3,7 +3,7 @@
 
 	SynthAudioSource.h
 	Created: 2 Dec 2018 2:47:15pm
-	Author:  korowiow
+	Author:  korowiow + Adam Korytowski
 
   ==============================================================================
 */
@@ -11,7 +11,6 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-//#include "PluginEditor.h"
 
 //==============================================================================
 struct SineWaveSound : public SynthesiserSound
@@ -48,8 +47,6 @@ struct SineWaveVoice : public SynthesiserVoice
 		auto currentSample = value0 + frac * (value1 - value0);
 		if ((currentIndex += tableDelta) > tableSize)
 			currentIndex -= tableSize;
-		/*auto rand = Random::getSystemRandom().nextFloat();
-		currentSample += (0.001*rand);*/
 		return currentSample;
 	}
 	// ***
@@ -60,7 +57,7 @@ struct SineWaveVoice : public SynthesiserVoice
 	void startNote(int midiNoteNumber, float velocity,
 		SynthesiserSound*, int /*currentPitchWheelPosition*/) override
 	{
-		currentIndex = 0.0; // *** currentAngle = 0.0;
+		currentIndex = 0.0; 
 		level = velocity * globalLevel;
 		//level = 0.;
 		tailOff = 0.0;
@@ -118,11 +115,9 @@ struct SineWaveVoice : public SynthesiserVoice
 			{
 				while (--numSamples >= 0)
 				{
-					// *** auto currentSample = (float)(std::sin(currentAngle) * level);
 					auto currentSample = getNextSample() * level; // ***
 					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
 						outputBuffer.addSample(i, startSample, currentSample);
-					// *** currentAngle += angleDelta;
 					++startSample;
 				}
 			}
@@ -130,7 +125,6 @@ struct SineWaveVoice : public SynthesiserVoice
 	}
 	
 private:
-	// *** double currentAngle = 0.0, angleDelta = 0.0, level = 0.0,
 	float tailOff = 0.0; // ***
 	const AudioSampleBuffer& wavetable;
 	float currentIndex = 0.0f, tableDelta = 0.0f, level = 0.0f, globalLevel = 0.0f;
@@ -160,7 +154,6 @@ public:
 	void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override
 	{
 		synth.setCurrentPlaybackSampleRate(sampleRate);
-		//createWavetable(); /*/ 
 	}
 	void releaseResources() override {}
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override
@@ -222,8 +215,6 @@ public:
 			auto sample = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * sineParameter);
 			auto sample2 = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * sine2Parameter);
 
-			//auto logComponent = std::sin(currentAngle) * std::cos(currentAngle) - std::sin(currentAngle * logParameter);
-
 			auto rand = Random::getSystemRandom().nextFloat();
 
 			float sineSample = sample * sineRatio;
@@ -238,6 +229,5 @@ public:
 			currentAngle += angleDelta;
 
 		}
-		//signalTable.reverse(0, tableSize);
 	}
 };
