@@ -1,9 +1,8 @@
 /*
   ==============================================================================
 
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin editor.
+Date: 2018
+Author: Juce + Adam Korytowski
 
   ==============================================================================
 */
@@ -38,7 +37,6 @@ public:
 		keyboardComponent.grabKeyboardFocus();
 		stopTimer();
 	}
-	//Slider releaseSlider;
 
 	Slider gainSlider, squareRatioSlider, sineRatioSlider, noiseRatioSlider, sine2RatioSlider;
 	Slider sineParameterSlider, squareParameterSlider, sine2ParameterSlider;
